@@ -1,0 +1,24 @@
+<!-- plot_timeseries.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Series Plot</title>
+    <!-- Include Plotly.js from CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Time Series Plot</h1>
+    <!-- Display the Plotly plot using the plotly_div placeholder -->
+    <div id="plotly_div"></div>
+
+    <script>
+        // Replace plotly_div with the actual div ID you want to use
+        var plotlyDiv = document.getElementById('plotly_div');
+
+        // Insert the Plotly plot HTML into the div
+        plotlyDiv.innerHTML = '{{ plot_html|safe }}';
+    </script>
+</body>
+</html>
