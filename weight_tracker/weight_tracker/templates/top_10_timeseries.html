@@ -1,0 +1,26 @@
+<!-- top_10_timeseries.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Tracker - Top 10 Usernames</title>
+</head>
+<body>
+
+<h1>Weight Tracker - Top 10 Usernames</h1>
+<div id="plotly_div"></div>
+<script>
+    // Replace plotly_div with the actual div ID you want to use
+    var plotlyDiv = document.getElementById('plotly_div');
+
+    // Insert the Plotly plot HTML into the div
+    plotlyDiv.innerHTML = '{{ plot_html|safe }}';
+</script>
+
+<!-- Add a link or button to redirect back to weight_entry view -->
+<a href="{% url 'weight_entry' %}">Back to Weight Entry</a>
+
+
+</body>
+</html>

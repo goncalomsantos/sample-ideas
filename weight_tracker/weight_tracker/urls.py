@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import weight_entry, plot_timeseries
+from .views import weight_entry, plot_timeseries, top_usernames
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", weight_entry, name="weight_entry"),
     path('plot_timeseries/<str:username>/', plot_timeseries, name="plot_timeseries"),
+    path('top_usernames/', top_usernames, name='top_10_timeseries'),
 ]

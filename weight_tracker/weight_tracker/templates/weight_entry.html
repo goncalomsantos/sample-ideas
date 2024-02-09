@@ -17,11 +17,10 @@
         <br>
         <button type="submit">Submit</button>
     </form>
-    <h2>Weight Entries</h2>
-    <ul>
-        {% for entry in entries %}
-            <li>{{ entry.username }} - {{ entry.date }} - {{ entry.weight_kg }} kg</li>
-        {% endfor %}
-    </ul>
+    
+    <!-- Add a link to redirect to top_10_timeseries view -->
+    <a href="{% url 'top_10_timeseries' %}">View Top 10 Usernames</a>
+
+
 </body>
 </html>
