@@ -1,0 +1,103 @@
+<!-- calculator_app/templates/calculator_app/calculator.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+</head>
+<body>
+
+  <!-- CSRF token for security -->
+  {% csrf_token %}
+
+  <!-- Input field for the expression -->
+  <input type="text" id="expressionInput" readonly style="width: 100px;"/>
+
+  <!-- Calculator buttons with line breaks for better formatting -->
+  <div id="calculatorButtons">
+    <button onclick="appendCharacter('7')">7</button>
+    <button onclick="appendCharacter('8')">8</button>
+    <button onclick="appendCharacter('9')">9</button>
+    <button onclick="appendCharacter('/')">/</button><br>
+    <button onclick="appendCharacter('4')">4</button>
+    <button onclick="appendCharacter('5')">5</button>
+    <button onclick="appendCharacter('6')">6</button>
+    <button onclick="appendCharacter('*')">*</button><br>
+    <button onclick="appendCharacter('1')">1</button>
+    <button onclick="appendCharacter('2')">2</button>
+    <button onclick="appendCharacter('3')">3</button>
+    <button onclick="appendCharacter('-')">-</button><br>
+    <button onclick="appendCharacter('0')">0</button>
+    <button onclick="appendCharacter('.')">.</button>
+    <button onclick="calculateResult()">=</button>
+    <button onclick="appendCharacter('+')">+</button><br>
+    <button onclick="clearExpression()">C</button>
+  </div>
+
+  <!-- Container for displaying the result or error -->
+  <div id="resultContainer"></div>
+
+  <!-- JavaScript code for handling button actions and making AJAX requests -->
+  <script>
+    // Function to append a character to the expression input
+    function appendCharacter(character) {
+      document.getElementById('expressionInput').value += character;
+    }
+
+    // Function to calculate the result using the server-side view
+    function calculateResult() {
+      var expression = document.getElementById('expressionInput').value;
+
+      // AJAX request to the server-side view for calculation
+      fetch('/calculator/calculate/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: 'expression=' + encodeURIComponent(expression)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Display the result or error in the result container
+        if (data.error) {
+          document.getElementById('resultContainer').innerText = 'Error: ' + data.error;
+        } else {
+          document.getElementById('resultContainer').innerText = 'Result: ' + data.result;
+        }
+      })
+      .catch(error => {
+        // Handle errors that occur during the AJAX request
+        console.error('Error:', error);
+        document.getElementById('resultContainer').innerText = 'Error occurred.';
+      });
+    }
+
+    // Function to clear the expression input and result container
+    function clearExpression() {
+      document.getElementById('expressionInput').value = '';
+      document.getElementById('resultContainer').innerText = '';
+    }
+
+    // Function to get the CSRF token from cookies
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+
+</body>
+</html>
