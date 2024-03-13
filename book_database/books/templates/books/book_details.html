@@ -1,0 +1,52 @@
+<!-- books/templates/books/book_details.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.name }} - Book Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   </head>
+<body>
+    <div class="container">
+        <h2>Book Details</h2>
+    
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Book Name</td>
+                        <td>{{ book.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Author</td>
+                        <td>{{ book.author }}</td>
+                    </tr>
+                    <tr>
+                        <td>Book Cover</td>
+                        <td>
+                            <img src="{{ book.book_cover.url }}" alt="{{ book.name }} Cover" class="img-fluid" width="50%">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td>{{ book.price }}</td>
+                    </tr>
+                </table>
+                {% if not book.status %}
+                    <form method="post" action="{% url 'change_status' book.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="new_status" value="have">
+                        <button type="submit" class="btn btn-primary">Change Status to Have</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    
+    </div>
+</body>
+</html>

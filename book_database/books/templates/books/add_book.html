@@ -1,0 +1,67 @@
+<!-- books/templates/books/add_book.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Add Book</title>
+    <style>
+        /* Add custom CSS styles */
+        table {
+            width: 300px; /* Adjust the width as needed */
+            margin-right: 20px; /* Add margin to separate tables */
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add Book</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="action" value="have">Add to Books We Have</button>
+        <button type="submit" name="action" value="want">Add to Books We Want</button>
+    </form>
+
+    <h3>Books We Have</h3>
+    <table style="width: 50%; float: left;" class="table">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books_have %}
+                <tr>
+                    <td>{{ book.name }}</td>
+                    <td><a href="{% url 'book_details' slug=book.slug %}">View Details</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Clear the float after the Books We Have table -->
+    <div style="clear: both;"></div>
+
+    <!-- Display table for Books We Want -->
+    <h3>Books We Want</h3>
+    <table style="width: 50%; float: left;" class="table">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books_want %}
+                <tr>
+                    <td>{{ book.name }}</td>
+                    <td><a href="{% url 'book_details' slug=book.slug %}">View Details</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
